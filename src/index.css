@@ -1,11 +1,19 @@
 :root {
+  --primary: rgb(79 70 229 / 1);
+  --primary-hover: rgb(99 102 241);
+  --secondary: #fff;
+  --background: #f3f3f3;
+  --text-color-1: #213547;
+  --text-color-2: rgb(17 24 49 / 1);
+  --white-overlay: rgba(255, 255, 255, .5);
+  --error: red;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: var(--text-color-1);
+  background-color: var(--background);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -22,21 +30,144 @@ body {
   min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.highlight {
+  color: var(--primary);
+}
+
+.card {
+  background-color: var(--secondary);
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.device-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+ul {
+  list-style: none;
+  padding: 10px;
+}
+
+li {
+  padding: 10px;
+  cursor: pointer;
+  color: var(--text-color-1);
+  font-weight: 400;
+  font-size: 1rem;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+li:hover {
+  color: var(--text-color-2);
+  background-color: var(--background);
+}
+
+input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--primary-hover);
+  outline: none;
+  padding: 10px 0px;
+  margin-bottom: 25px;
+}
+
+input:focus {
+  border-bottom: 1px solid var(--primary);
 }
 
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+
+button {
+  padding: 10px 20px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--secondary);
+  background-color: var(--primary);
+  border-radius: .375rem;
+  border: 0;
+  cursor: pointer;
+}
+
+button:hover,
+button:active {
+  background-color: var(--primary-hover);
+}
+
+button:disabled,
+button[disabled] {
+  border: 1px solid var(--secondary);
+  background-color: var(--background);
+  color: var(--primary);
+}
+
+button:disabled,
+button[disabled]:hover,
+button[disabled]:active {
+  background-color: var(--background);
+}
+
+.button-loader {
+  border: 2px solid var(--background);
+  -webkit-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+  border-top: 2px solid var(--primary);
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  margin-right: 10px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
-  a:hover {
-    color: #747bff;
+
+  100% {
+    transform: rotate(360deg);
   }
-  button {
-    background-color: #f9f9f9;
-  }
+}
+
+.flex-center {
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+}
+
+.error-box,
+.success-box {
+  height: 10px;
+  position: relative;
+}
+
+.form-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 450px;
+}
+
+.form-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.form-heading {
+  margin-top: 50px;
 }
