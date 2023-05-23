@@ -1,4 +1,4 @@
-import { AuthError, createUserWithEmailAndPassword } from "firebase/auth";
+import { AuthError, signInWithEmailAndPassword } from "firebase/auth";
 import { FormEvent, useContext, useState } from "react"
 import { auth, getErrorMessage } from '../lib/firebase';
 import { AuthContext } from "../lib/context";
@@ -6,7 +6,7 @@ import Button from "../components/Button/Button";
 import { useNavigate } from "react-router-dom";
 
 
-function Signup() {
+function Signin() {
     const [email, setEmail] = useState('');
     const [passowrd, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -18,7 +18,7 @@ function Signup() {
         e.preventDefault();
         try {
             setLoading(true);
-            const response = await createUserWithEmailAndPassword(auth, email, passowrd);
+            const response = await signInWithEmailAndPassword(auth, email, passowrd);
             setUser(response.user);
             setErrorMessage('');
             navigate('/');
@@ -41,7 +41,7 @@ function Signup() {
                 <form onSubmit={onSubmit} autoComplete="off">
                     <div className="box form-box">
                         <h2 className="heading">Internet <span className='highlight'>Switch</span></h2>
-                        <h4 className="sub-heading">Create your Account</h4>
+                        <h4 className="sub-heading">Sign In</h4>
                         <div className="form-body">
                             <div className="form-message">
                                 <span className="form-error flex justify-center w-100">{errorMessage && <p>{errorMessage}</p>}</span>
@@ -57,7 +57,7 @@ function Signup() {
                                 }} />
                             </div>
                             <div className="flex flex-row justify-space-between">
-                                <Button name="Sign in instead" varient="light" onClick={() => { navigate('/signin'); }} />
+                                <Button name="Create account" varient="light" onClick={() => { navigate('/signup'); }} />
                                 <Button name="Submit" loading={loading} />
                             </div>
 
@@ -70,4 +70,4 @@ function Signup() {
     </main>
 }
 
-export default Signup
+export default Signin

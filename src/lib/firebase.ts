@@ -25,5 +25,17 @@ export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const database = getDatabase(app);
 
+const errors = new Map();
+errors.set('auth/wrong-password', 'Please enter valid email id/password');
+errors.set('auth/user-not-found', 'Please sign up to continue');
+
+
+export function getErrorMessage(code: string) {
+    if(errors.has(code)) {
+        return errors.get(code);
+    }
+    return 'Some error has occured, Please try again later';
+}
+
 
 

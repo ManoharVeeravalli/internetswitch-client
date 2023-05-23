@@ -6,13 +6,15 @@ export const STATUS_OFF = 'LOW';
 export const STATE_ACTIVE = 'ACTIVE';
 export const STATE_RESET = 'RESET';
 
-
-
 export interface UserDoc {
-    name: string;
+    details: UserDetailDoc;
     devices: {
-        [key: string]: DeviceDoc;
+        [key: string]: DeviceDoc
     }
+}
+
+export interface UserDetailDoc {
+    name: string;
 }
 
 export interface DeviceDoc {
