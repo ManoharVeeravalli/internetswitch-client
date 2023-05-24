@@ -28,6 +28,7 @@ export const database = getDatabase(app);
 const errors = new Map();
 errors.set('auth/wrong-password', 'Please enter valid email id/password');
 errors.set('auth/user-not-found', 'Please sign up to continue');
+errors.set('auth/email-already-in-use', 'This email is already registered, Please sign in to continue');
 errors.set('PERMISSION_DENIED', 'You are not authorized to do this operation');
 
 

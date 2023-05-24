@@ -51,7 +51,7 @@ function DeviceItem({ device: initalState, deviceId }: { device: DeviceDoc, devi
         <div className="card device-item">
             <div className="device-heading">
                 <div className="flex flex-row flex-center">
-                    <h4 className="device-name">{device.name || 'Unamed'}</h4>
+                    <h4 className="device-name">{device.name || `#${deviceId.substring(deviceId.length - 4, deviceId.length)}`}</h4>
                     <Tag varient={device.state === STATE_ACTIVE ? 'dark' : 'black'}>{device.state}</Tag>
                 </div>
                 <div>

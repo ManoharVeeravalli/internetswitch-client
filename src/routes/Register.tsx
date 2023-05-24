@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { getErrorMessage } from '../lib/firebase';
 import { AuthError } from 'firebase/auth';
 import { UserDetailContext } from '../lib/context';
+import Layout from '../components/Layout';
 
 function Register() {
     const user = useUser();
@@ -38,30 +39,35 @@ function Register() {
     function clearErrorMessages() {
         setErrorMessage('');
     }
-    return <main className="flex flex-center">
-        <section>
-            <div className="card">
-                <form onSubmit={onSubmit} autoComplete="off">
-                    <div className="box form-box">
-                        <h2 className="heading">Internet <span className='highlight'>Switch</span></h2>
-                        <h4 className="sub-heading">Register</h4>
-                        <div className="form-body">
-                            <div className="form-message">
-                                <span className="form-error flex justify-center w-100">{errorMessage && <p>{errorMessage}</p>}</span>
+    return (
+        <Layout>
+            <main className="flex flex-center">
+                <section>
+                    <div className="card">
+                        <form onSubmit={onSubmit} autoComplete="off">
+                            <div className="box form-box">
+                                <h2 className="sub-heading">Who are you ?</h2>
+                                <div className="form-body">
+                                    <div className="form-message">
+                                        <span className="form-error flex justify-center w-100">{errorMessage && <p>{errorMessage}</p>}</span>
+                                    </div>
+                                    <div>
+                                        <input type="text" autoComplete="off" required placeholder='Full Name' value={name} onChange={e => {
+                                            clearErrorMessages();
+                                            setName(e.target.value);
+                                        }} />
+                                    </div>
+                                    <Button name="Submit" loading={loading} />
+                                </div>
                             </div>
-                            <div>
-                                <input type="text" autoComplete="off" required placeholder='Full Name' value={name} onChange={e => {
-                                    clearErrorMessages();
-                                    setName(e.target.value);
-                                }} />
-                            </div>
-                            <Button name="Submit" loading={loading} />
-                        </div>
+                        </form>
                     </div>
-                </form>
-            </div>
-        </section>
-    </main>
+                </section>
+            </main>
+        </Layout>
+    );
+
+
 
 }
 
