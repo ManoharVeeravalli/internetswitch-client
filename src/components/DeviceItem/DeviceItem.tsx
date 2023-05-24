@@ -62,7 +62,7 @@ function DeviceItem({ device: initalState, deviceId }: { device: DeviceDoc, devi
                     <Tag varient={device.state === STATE_ACTIVE ? 'dark' : 'black'}>{device.state}</Tag>
                 </div>
                 <div>
-                    <Switch isOn={status} handleToggle={onSwitchChange} disabled={device.state === STATE_RESET} />
+                    <Switch isOn={status} handleToggle={onSwitchChange} disabled={device.state === STATE_RESET} id={deviceId}/>
                 </div>
             </div>
             <div className="device-body">
