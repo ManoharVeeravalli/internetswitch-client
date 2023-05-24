@@ -5,7 +5,6 @@ import Signin from './routes/Signin';
 import Signup from './routes/Signup';
 import Register from "./routes/Register";
 import { UserDetailWrapper } from "./lib/hoc";
-
 import './App.css'
 import EditDevice from "./routes/EditDevice";
 
