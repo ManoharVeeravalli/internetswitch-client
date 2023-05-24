@@ -7,13 +7,13 @@ import 'firebase/firestore';
 import 'firebase/storage';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyA1vnarmfbyo0EorN8LwlwRFbtPkFrGA5A",
-    authDomain: "internetswitch-2570f.firebaseapp.com",
-    databaseURL: "https://internetswitch-2570f-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "internetswitch-2570f",
-    storageBucket: "internetswitch-2570f.appspot.com",
-    messagingSenderId: "120862676752",
-    appId: "1:120862676752:web:a8ca9260d335ff9e4f3795"
+    apiKey: "AIzaSyACZTdan5opjBccXJSiAnisjVwv-yT49Jw",
+    authDomain: "internetswitch-d4d02.firebaseapp.com",
+    databaseURL: "https://internetswitch-d4d02-default-rtdb.firebaseio.com",
+    projectId: "internetswitch-d4d02",
+    storageBucket: "internetswitch-d4d02.appspot.com",
+    messagingSenderId: "33392182038",
+    appId: "1:33392182038:web:4e5b64a8cd8bd31731c637"
   };
 
 export const app = initializeApp(firebaseConfig);
