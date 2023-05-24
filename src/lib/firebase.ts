@@ -7,17 +7,14 @@ import 'firebase/firestore';
 import 'firebase/storage';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyD0o2HHGWp6oP_VTgA5DA4liDGAvXzIOYE",
-    authDomain: "metrix-3c2e5.firebaseapp.com",
-    databaseURL: "https://metrix-3c2e5.firebaseio.com",
-    projectId: "metrix-3c2e5",
-    storageBucket: "metrix-3c2e5.appspot.com",
-    messagingSenderId: "167311742834",
-    appId: "1:167311742834:web:56e98e39f72041ddf0afeb",
-    measurementId: "G-BZ1V321RFK"
-};
-
-console.log('initializing...');
+    apiKey: "AIzaSyA1vnarmfbyo0EorN8LwlwRFbtPkFrGA5A",
+    authDomain: "internetswitch-2570f.firebaseapp.com",
+    databaseURL: "https://internetswitch-2570f-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "internetswitch-2570f",
+    storageBucket: "internetswitch-2570f.appspot.com",
+    messagingSenderId: "120862676752",
+    appId: "1:120862676752:web:a8ca9260d335ff9e4f3795"
+  };
 
 export const app = initializeApp(firebaseConfig);
 
