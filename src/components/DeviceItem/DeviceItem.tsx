@@ -28,7 +28,14 @@ function DeviceItem({ device: initalState, deviceId }: { device: DeviceDoc, devi
         }
     }
 
+    function getDeviceName() {
+        return device.name || `#${deviceId.substring(deviceId.length - 4, deviceId.length)}`;
+    }
+
     async function onResetClick() {
+        if (!confirm(`'Are you sure you want to reset' ${getDeviceName()}`)) {
+            return;
+        }
         const prevState = { ...device };
         try {
             setResetLoading(true);
@@ -51,7 +58,7 @@ function DeviceItem({ device: initalState, deviceId }: { device: DeviceDoc, devi
         <div className="card device-item">
             <div className="device-heading">
                 <div className="flex flex-row flex-center">
-                    <h4 className="device-name">{device.name || `#${deviceId.substring(deviceId.length - 4, deviceId.length)}`}</h4>
+                    <h4 className="device-name">{getDeviceName()}</h4>
                     <Tag varient={device.state === STATE_ACTIVE ? 'dark' : 'black'}>{device.state}</Tag>
                 </div>
                 <div>
@@ -62,7 +69,6 @@ function DeviceItem({ device: initalState, deviceId }: { device: DeviceDoc, devi
                 {device.state === STATE_RESET && <div>This device will be deleted soon.....</div>}
             </div>
             <div className="device-footer flex flex-end">
-
                 {
                     device.state === STATE_ACTIVE &&
                     <>
