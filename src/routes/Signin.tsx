@@ -23,7 +23,7 @@ function Signin() {
             setErrorMessage('');
             navigate('/');
         } catch (e) {
-            let error = e as AuthError;
+            const error = e as AuthError;
             setErrorMessage(getErrorMessage(error.code));
             console.error(e);
         } finally {

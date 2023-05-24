@@ -1,4 +1,4 @@
-import { useState, useEffect, ReactNode, FC } from "react";
+import { useState, useEffect, ReactNode, FC, useCallback } from "react";
 import { useUser } from "./hooks";
 import { UserDetailDoc } from "./types";
 import { ref, get, child } from 'firebase/database';
@@ -10,19 +10,31 @@ import { AuthContext } from '../lib/context'
 
 
 
-export const UserDetailWrapper: FC<{ children: ReactNode }> = AuthGuard((props: any) => {
+export const UserDetailWrapper: FC<{ children: ReactNode }> = AuthGuard((props) => {
     const user = useUser();
     const [userDetail, setDetail] = useState<UserDetailDoc | null>(getUserDetailFromCache());
     const [loading, setLoading] = useState(!userDetail);
 
-    async function fetchUserDoc(showLoading: boolean) {
 
+    const setUserDetail = useCallback((doc: UserDetailDoc | null) => {
+        if (!doc) {
+            localStorage.removeItem(user.uid);
+            setDetail(null);
+            return;
+        }
+        localStorage.setItem(user?.uid, JSON.stringify(doc));
+        setDetail(doc);
+    }, [user.uid])
+
+
+    const fetchUserDoc = useCallback(async () => {
+        const showLoading = !userDetail;
         try {
             setLoading(showLoading);
             const snapshot = await get(child(ref(database), `users/${user?.uid}/details`));
 
             if (snapshot.exists()) {
-                let doc = snapshot.val();
+                const doc = snapshot.val();
                 setUserDetail(doc);
             } else {
                 setUserDetail(null);
@@ -33,26 +45,17 @@ export const UserDetailWrapper: FC<{ children: ReactNode }> = AuthGuard((props: 
             setLoading(false);
         }
 
-    }
+    }, [userDetail, user.uid, setUserDetail]);
 
-    function setUserDetail(doc: any) {
-        if (!doc) {
-            localStorage.removeItem(user.uid);
-            setDetail(null);
-            return;
-        }
-        localStorage.setItem(user?.uid, JSON.stringify(doc));
-        setDetail(doc);
-    }
 
-    function getUserDetailFromCache(): any {
+    function getUserDetailFromCache(): UserDetailDoc | null {
         const str = localStorage.getItem(user?.uid);
         return str ? JSON.parse(str) : null
     }
 
     useEffect(() => {
-        fetchUserDoc(!userDetail);
-    }, []);
+        fetchUserDoc();
+    }, [fetchUserDoc]);
 
     return <>
         <UserDetailContext.Provider value={{ userDetail, setUserDetail, loading }}>

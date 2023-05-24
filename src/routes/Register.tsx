@@ -27,7 +27,7 @@ function Register() {
             setUserDetail({ name });
             navigate('/');
         } catch (e) {
-            let error = e as AuthError;
+            const error = e as AuthError;
             setErrorMessage(getErrorMessage(error.code));
             console.error(e);
         } finally {
@@ -50,7 +50,7 @@ function Register() {
                                 <span className="form-error flex justify-center w-100">{errorMessage && <p>{errorMessage}</p>}</span>
                             </div>
                             <div>
-                                <input type="text" autoComplete="off" required placeholder='Name' value={name} onChange={e => {
+                                <input type="text" autoComplete="off" required placeholder='Full Name' value={name} onChange={e => {
                                     clearErrorMessages();
                                     setName(e.target.value);
                                 }} />
@@ -65,4 +65,6 @@ function Register() {
 
 }
 
-export default AuthGuard(Register);
+const RegisterPage = AuthGuard(Register);
+
+export default RegisterPage;

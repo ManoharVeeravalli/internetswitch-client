@@ -2,7 +2,7 @@ import { UserDetailGuard } from '../lib/guards';
 import { database, getErrorMessage } from '../lib/firebase';
 import { useUser } from '../lib/hooks';
 import { get, child, ref, update } from 'firebase/database';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { DeviceDoc } from '../lib/types';
 import { FirebaseError } from 'firebase/app';
 import Layout from '../components/Layout';
@@ -22,7 +22,7 @@ function EditDevice() {
     const [loading, setLoading] = useState(true);
     const [device, setDevice] = useState<DeviceDoc | null>(null);
 
-    async function getDevice() {
+    const getDevice = useCallback(async () => {
         try {
             setLoading(true);
             const snapshot = await get(child(ref(database), `users/${user?.uid}/devices/${deviceId}`));
@@ -38,11 +38,11 @@ function EditDevice() {
         } finally {
             setLoading(false);
         }
-    }
+    }, [deviceId, user?.uid]);
 
     useEffect(() => {
         getDevice();
-    }, [])
+    }, [getDevice])
 
     if (!deviceId) return null;
 
@@ -97,6 +97,8 @@ function EditDeviceForm({ device, deviceId }: { device: DeviceDoc, deviceId: str
     );
 }
 
-export default UserDetailGuard(EditDeviceWrapper);
+const EditDevicePage = UserDetailGuard(EditDeviceWrapper);
+
+export default EditDevicePage;
 
 
