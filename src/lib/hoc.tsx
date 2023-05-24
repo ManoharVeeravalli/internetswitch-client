@@ -28,9 +28,8 @@ export const UserDetailWrapper: FC<{ children: ReactNode }> = AuthGuard((props) 
 
 
     const fetchUserDoc = useCallback(async () => {
-        const showLoading = !userDetail;
         try {
-            setLoading(showLoading);
+            setLoading(loading);
             const snapshot = await get(child(ref(database), `users/${user?.uid}/details`));
 
             if (snapshot.exists()) {
@@ -45,7 +44,7 @@ export const UserDetailWrapper: FC<{ children: ReactNode }> = AuthGuard((props) 
             setLoading(false);
         }
 
-    }, [userDetail, user.uid, setUserDetail]);
+    }, [user.uid, setUserDetail]);
 
 
     function getUserDetailFromCache(): UserDetailDoc | null {

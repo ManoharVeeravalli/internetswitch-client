@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 function DeviceItem({ device: initalState, deviceId }: { device: DeviceDoc, deviceId: string }) {
     const user = useUser();
     const [status, setStatus] = useState(initalState.status == STATUS_ON);
-    const [device, setDevice] = useState(initalState);
+    const [device, setDevice] = useState({...initalState});
     const [resetLoading, setResetLoading] = useState(false);
     const navigate = useNavigate();
     async function onSwitchChange() {

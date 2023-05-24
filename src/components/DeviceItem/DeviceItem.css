@@ -1,5 +1,6 @@
 .device-item {
     padding: 15px !important;
+    margin-bottom: 10px;
 }
 
 .device-item>.device-heading {

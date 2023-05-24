@@ -56,9 +56,8 @@ function EditDevice() {
 }
 
 function EditDeviceForm({ device, deviceId }: { device: DeviceDoc, deviceId: string }) {
-    console.log(device);
     const user = useUser();
-    const [name, setName] = useState(device.name);
+    const [name, setName] = useState(device?.name || '');
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
