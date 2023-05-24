@@ -12,18 +12,18 @@ import { AuthContext } from '../lib/context'
 
 export const UserDetailWrapper: FC<{ children: ReactNode }> = AuthGuard((props: any) => {
     const user = useUser();
+    const [userDetail, setDetail] = useState<UserDetailDoc | null>(getUserDetailFromCache());
+    const [loading, setLoading] = useState(!userDetail);
 
-    const [userDetail, setUserDetail] = useState<UserDetailDoc | null>(null);
-    const [loading, setLoading] = useState(true);
-
-    async function getUserDoc() {
+    async function fetchUserDoc(showLoading: boolean) {
 
         try {
-            setLoading(true);
+            setLoading(showLoading);
             const snapshot = await get(child(ref(database), `users/${user?.uid}/details`));
 
             if (snapshot.exists()) {
-                setUserDetail(snapshot.val());
+                let doc = snapshot.val();
+                setUserDetail(doc);
             } else {
                 setUserDetail(null);
             }
@@ -35,8 +35,23 @@ export const UserDetailWrapper: FC<{ children: ReactNode }> = AuthGuard((props: 
 
     }
 
+    function setUserDetail(doc: any) {
+        if (!doc) {
+            localStorage.removeItem(user.uid);
+            setDetail(null);
+            return;
+        }
+        localStorage.setItem(user?.uid, JSON.stringify(doc));
+        setDetail(doc);
+    }
+
+    function getUserDetailFromCache(): any {
+        const str = localStorage.getItem(user?.uid);
+        return str ? JSON.parse(str) : null
+    }
+
     useEffect(() => {
-        getUserDoc();
+        fetchUserDoc(!userDetail);
     }, []);
 
     return <>

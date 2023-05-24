@@ -1,12 +1,13 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 
-import Root from './routes/Root';
+import Devices from './routes/Devices';
 import Signin from './routes/Signin';
 import Signup from './routes/Signup';
 import Register from "./routes/Register";
 import { UserDetailWrapper } from "./lib/hoc";
 
 import './App.css'
+import EditDevice from "./routes/EditDevice";
 
 
 const router = createBrowserRouter([
@@ -23,10 +24,24 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
+    path: "/devices",
+    element: (
+      <UserDetailWrapper>
+        <Devices />
+      </UserDetailWrapper>
+    ),
+  },
+  {
+    path: "/devices/:deviceId",
+    element: (
+      <UserDetailWrapper>
+        <EditDevice/>
+      </UserDetailWrapper>
+    ),
+  },
+  {
     path: "/",
-    element: <UserDetailWrapper>
-      <Root />
-    </UserDetailWrapper>,
+    element: <Navigate to={'/devices'} />
   },
 ]);
 

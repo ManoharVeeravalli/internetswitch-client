@@ -10,9 +10,9 @@ export function AuthGuard(Node: React.FC<any>): React.FC {
         const { user, loading } = useContext(AuthContext);
 
         if (loading) {
-            return <Loading />
+            return <Loading text='Auth Loading.....'/>
         }
-
+        
         if (!user) {
             return <Navigate to="/signin" replace />;
         }
@@ -30,7 +30,7 @@ export function UserDetailGuard(Node: React.FC): React.FC {
         const { userDetail, loading } = useContext(UserDetailContext);
 
         if (loading) {
-            return <Loading />
+            return <Loading text='User Loading....'/>
         }
 
         if (!userDetail) {

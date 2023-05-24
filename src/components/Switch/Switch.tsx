@@ -1,6 +1,6 @@
 import './Switch.css'
 
-const Switch = ({ isOn, handleToggle }: { isOn: boolean, handleToggle: () => void }) => {
+const Switch = ({ isOn, handleToggle, disabled = false }: { isOn: boolean, handleToggle: () => void, disabled?: boolean }) => {
   return (
     <div style={{position: 'relative'}}>
       <input
@@ -10,6 +10,7 @@ const Switch = ({ isOn, handleToggle }: { isOn: boolean, handleToggle: () => voi
         className="react-switch-checkbox"
         id={`react-switch-new`}
         type="checkbox"
+        disabled={disabled}
       />
       <label
         style={{ backgroundColor: isOn ? 'var(--primary)' : '' }}

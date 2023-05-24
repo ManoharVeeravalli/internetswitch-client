@@ -44,7 +44,7 @@ function Signin() {
                         <h4 className="sub-heading">Sign In</h4>
                         <div className="form-body">
                             <div className="form-message">
-                                <span className="form-error flex justify-center w-100">{errorMessage && <p>{errorMessage}</p>}</span>
+                                <span className="form-error flex justify-center w-100">{errorMessage && <span>{errorMessage}</span>}</span>
                             </div>
                             <div>
                                 <input type="email" autoComplete="off" required placeholder='Email ID' value={email} onChange={e => {

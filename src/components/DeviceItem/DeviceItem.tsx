@@ -1,15 +1,21 @@
 import { useState } from "react";
-import { DeviceDoc, STATUS_OFF, STATUS_ON } from "../../lib/types";
+import { DeviceDoc, STATE_ACTIVE, STATE_RESET, STATUS_OFF, STATUS_ON } from "../../lib/types";
 import { database } from "../../lib/firebase";
 import { update, ref } from "firebase/database";
 import Switch from "../Switch/Switch";
 import './DeviceItem.css';
 import { useUser } from "../../lib/hooks";
+import Tag from "../Tag/Tag";
+import Button from "../Button/Button";
+import { useNavigate } from "react-router-dom";
 
 
-function DeviceItem({ device, deviceId }: { device: DeviceDoc, deviceId: string }) {
+function DeviceItem({ device: initalState, deviceId }: { device: DeviceDoc, deviceId: string }) {
     const user = useUser();
-    const [status, setStatus] = useState(device.status == STATUS_ON);
+    const [status, setStatus] = useState(initalState.status == STATUS_ON);
+    const [device, setDevice] = useState(initalState);
+    const [resetLoading, setResetLoading] = useState(false);
+    const navigate = useNavigate();
     async function onSwitchChange() {
         const prevStatus = status;
         setStatus(!prevStatus);
@@ -18,25 +24,54 @@ function DeviceItem({ device, deviceId }: { device: DeviceDoc, deviceId: string 
                 status: prevStatus ? STATUS_OFF : STATUS_ON
             })
         } catch (e) {
-            alert(e);
-            console.error(e);
-            setStatus(!prevStatus);
+            setStatus(prevStatus);
         }
     }
+
+    async function onResetClick() {
+        const prevState = { ...device };
+        try {
+            setResetLoading(true);
+            await update(ref(database, `/users/${user.uid}/devices/${deviceId}`), {
+                state: STATE_RESET
+            })
+            setDevice({ ...prevState, state: STATE_RESET });
+        } catch (e) {
+            setDevice({ ...prevState });
+        } finally {
+            setResetLoading(false);
+        }
+    }
+
+    async function onEditClick() {
+        navigate(`/devices/${deviceId}`)
+    }
+
     return (
         <div className="card device-item">
             <div className="device-heading">
-                <div>
-                    <h4>Motor Switch </h4>
+                <div className="flex flex-row flex-center">
+                    <h4 className="device-name">{device.name || 'Unamed'}</h4>
+                    <Tag varient={device.state === STATE_ACTIVE ? 'dark' : 'black'}>{device.state}</Tag>
                 </div>
                 <div>
-                    <Switch isOn={status} handleToggle={onSwitchChange} />
+                    <Switch isOn={status} handleToggle={onSwitchChange} disabled={device.state === STATE_RESET} />
                 </div>
             </div>
             <div className="device-body">
-                {device.state}
+                {device.state === STATE_RESET && <div>This device will be deleted soon.....</div>}
             </div>
+            <div className="device-footer flex flex-end">
 
+                {
+                    device.state === STATE_ACTIVE &&
+                    <>
+                        <Button onClick={onEditClick} name="EDIT" varient="light" />
+                        &nbsp;
+                        <Button onClick={onResetClick} name="RESET" varient="black" loading={resetLoading} />
+                    </>
+                }
+            </div>
         </div>);
 }
 

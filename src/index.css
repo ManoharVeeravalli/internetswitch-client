@@ -3,6 +3,9 @@
   --primary-light: rgb(99 102 241);
   --secondary: #fff;
   --secondary-light: #f3f3f3;
+  --black: #0f172a;
+  --black-light: #334155;
+  ;
   --text-color-1: #213547;
   --text-color-2: rgb(17 24 49 / 1);
   --white-overlay: rgba(255, 255, 255, .5);
@@ -29,8 +32,14 @@ body {
 main {
   margin: 0;
   min-width: 320px;
-  min-height: 100vh;
+  min-height: calc(100vh - 100px);
   padding: 1rem 10vw;
+}
+
+@media screen and (max-width: 1024px) {
+  main {
+    padding: 1rem 0px;
+  }
 }
 
 
@@ -39,9 +48,8 @@ main {
 }
 
 .card {
-  padding: 15px;
   border-radius: 5px;
-  padding: 2rem;
+  padding: 15px;
   background-color: var(--secondary);
   border: 1px solid var(--color-gray);
 }
@@ -73,6 +81,12 @@ input[type='text'] {
   margin-bottom: 25px;
 }
 
+label {
+  font-size: 12px;
+  font-weight: 400;
+  margin: 0;
+}
+
 input:focus {
   border-bottom: 1px solid var(--primary);
 }
@@ -95,6 +109,10 @@ input:focus {
 
 .justify-center {
   justify-content: center;
+}
+
+.flex-end {
+  justify-content: flex-end;
 }
 
 .align-center {
@@ -147,4 +165,8 @@ input:focus {
 
 .w-100 {
   width: 100%;
+}
+
+.pointer{
+  cursor: pointer;
 }

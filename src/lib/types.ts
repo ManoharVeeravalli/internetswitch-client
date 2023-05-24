@@ -6,6 +6,8 @@ export const STATUS_OFF = 'LOW';
 export const STATE_ACTIVE = 'ACTIVE';
 export const STATE_RESET = 'RESET';
 
+export type Varient = 'light' | 'dark' | 'black';
+
 export interface UserDoc {
     details: UserDetailDoc;
     devices: {
@@ -20,4 +22,5 @@ export interface UserDetailDoc {
 export interface DeviceDoc {
     state: 'ACTIVE' | 'RESET';
     status: 'HIGH' | 'LOW';
+    name: string;
 }

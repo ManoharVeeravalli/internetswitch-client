@@ -1,0 +1,41 @@
+.tag {
+    background-color: var(--primary);
+    color: var(--secondary-light);
+    display: inline-block;
+    padding-left: 8px;
+    padding-right: 8px;
+    text-align: center;
+    font-size: 12px;
+    border-radius: 50px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.tag-light {
+    background-color: var(--secondary);
+    color: var(--primary);
+}
+.tag-light:hover,
+.tag-light:active {
+    background-color: var(--secondary-light);
+}
+
+.tag-dark {
+    background-color: var(--primary);
+    color: var(--secondary);
+}
+
+.tag-dark:hover,
+.tag-dark:active {
+    background-color: var(--primary-light);
+}
+
+.tag-black {
+    background-color: var(--black);
+    color: var(--secondary-light);
+}
+
+.tag-black:hover,
+.tag-black:active {
+    background-color: var(--black-light);
+}

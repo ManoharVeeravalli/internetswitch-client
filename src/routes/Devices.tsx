@@ -1,44 +1,21 @@
-import { useNavigate } from 'react-router-dom';
-import Button from '../components/Button/Button';
 import { UserDetailGuard } from '../lib/guards';
-import { auth, database, getErrorMessage } from '../lib/firebase';
+import { database, getErrorMessage } from '../lib/firebase';
 import { useUser, useUserDetail } from '../lib/hooks';
 import { get, child, ref } from 'firebase/database';
 import { useEffect, useState } from 'react';
 import DeviceItem from '../components/DeviceItem/DeviceItem';
 import { DeviceDoc } from '../lib/types';
 import { FirebaseError } from 'firebase/app';
+import Layout from '../components/Layout';
 
-function Root() {
-    const navigate = useNavigate();
+function DevicesWrapper() {
     const userDetail = useUserDetail();
-
-    async function signOut() {
-        try {
-            await auth.signOut()
-        } catch (e) {
-            console.error(e);
-        }
-    }
 
     return (
         <>
-            <header className='card'>
-                <div className='flex justify-space-between'>
-                    <Button name='Devices' onClick={() => navigate('/')} />
-                    <Button name='Sign out' varient='light' onClick={signOut} />
-                </div>
-            </header>
-            <main>
-                <section>
-                    <div>
-                        <h1 className='sub-heading'><span className='highlight'>Welcome</span> {userDetail.name}</h1>
-                    </div>
-                    <div>
-                        <Devices />
-                    </div>
-                </section>
-            </main>
+            <Layout Heading={<h1 className='sub-heading'><span className='highlight'>Welcome</span> {userDetail.name}</h1>}>
+                <Devices />
+            </Layout>
         </>
 
     );
@@ -86,14 +63,14 @@ function Devices() {
 
     return <>
         <>{deviceKeys.length} Device(s) found</>
-        <br/><br/>
+        <br /><br />
         {deviceKeys.map(deviceId => {
-            return <DeviceItem deviceId={deviceId} device={devices[deviceId]} />
+            return <DeviceItem key={deviceId} deviceId={deviceId} device={devices[deviceId]} />
         })}
     </>
 
 }
 
-export default UserDetailGuard(Root);
+export default UserDetailGuard(DevicesWrapper);
 
 

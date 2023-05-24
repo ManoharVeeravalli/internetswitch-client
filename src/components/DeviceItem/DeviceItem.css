@@ -1,10 +1,18 @@
 .device-item {
-    padding: 0 15px 15px 15px !important;
+    padding: 15px !important;
 }
 
-.device-item > .device-heading{
+.device-item>.device-heading {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+}
+
+.device-name {
+    margin: 0;
+}
+
+.device-footer {
+    margin-top: 15px;
 }
