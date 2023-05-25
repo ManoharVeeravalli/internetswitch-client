@@ -33,7 +33,7 @@ function DeviceItem({ device: initalState, deviceId }: { device: DeviceDoc, devi
     }
 
     async function onResetClick() {
-        if (!confirm(`'Are you sure you want to reset' ${getDeviceName()}`)) {
+        if (!confirm(`Are you sure you want to reset ${getDeviceName()}`)) {
             return;
         }
         const prevState = { ...device };

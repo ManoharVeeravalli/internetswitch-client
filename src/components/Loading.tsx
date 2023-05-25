@@ -1,9 +1,8 @@
 
 
 
-function Loading({ text }: { text: string }) {
-
-    return <div className="text-center">{text}</div>
+function Loading(_: { text: string }) {
+    return <div className="text-center">....</div>
 }
 
 export default Loading;

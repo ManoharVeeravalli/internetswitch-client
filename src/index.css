@@ -167,6 +167,12 @@ input:focus {
   width: 100%;
 }
 
-.pointer{
+.pointer {
   cursor: pointer;
+}
+
+.prevent-select {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
