@@ -10,20 +10,21 @@ import Button from "../Button/Button";
 import { useNavigate } from "react-router-dom";
 
 
-function DeviceItem({ device: initalState, deviceId }: { device: DeviceDoc, deviceId: string }) {
+function DeviceItem({ device: { details: initalState }, deviceId }: { device: DeviceDoc, deviceId: string }) {
     const user = useUser();
     const [status, setStatus] = useState(initalState.status == STATUS_ON);
-    const [device, setDevice] = useState({...initalState});
+    const [device, setDevice] = useState({ ...initalState });
     const [resetLoading, setResetLoading] = useState(false);
     const navigate = useNavigate();
     async function onSwitchChange() {
         const prevStatus = status;
         setStatus(!prevStatus);
         try {
-            await update(ref(database, `/users/${user.uid}/devices/${deviceId}`), {
+            await update(ref(database, `/users/${user.uid}/devices/${deviceId}/details`), {
                 status: prevStatus ? STATUS_OFF : STATUS_ON
             })
         } catch (e) {
+            console.error(e);
             setStatus(prevStatus);
         }
     }
@@ -39,11 +40,12 @@ function DeviceItem({ device: initalState, deviceId }: { device: DeviceDoc, devi
         const prevState = { ...device };
         try {
             setResetLoading(true);
-            await update(ref(database, `/users/${user.uid}/devices/${deviceId}`), {
+            await update(ref(database, `/users/${user.uid}/devices/${deviceId}/details`), {
                 state: STATE_RESET
             })
             setDevice({ ...prevState, state: STATE_RESET });
         } catch (e) {
+            console.error(e);
             setDevice({ ...prevState });
         } finally {
             setResetLoading(false);
@@ -62,7 +64,7 @@ function DeviceItem({ device: initalState, deviceId }: { device: DeviceDoc, devi
                     <Tag varient={device.state === STATE_ACTIVE ? 'dark' : 'black'}>{device.state}</Tag>
                 </div>
                 <div>
-                    <Switch isOn={status} handleToggle={onSwitchChange} disabled={device.state === STATE_RESET} id={deviceId}/>
+                    <Switch isOn={status} handleToggle={onSwitchChange} disabled={device.state === STATE_RESET} id={deviceId} />
                 </div>
             </div>
             <div className="device-body">

@@ -19,8 +19,21 @@ export interface UserDetailDoc {
     name: string;
 }
 
-export interface DeviceDoc {
+export interface DeviceDetailDoc {
     state: 'ACTIVE' | 'RESET';
     status: 'HIGH' | 'LOW';
     name: string;
+}
+
+export interface DeviceHistoryDoc {
+    message: string;
+    createdAt: number;
+}
+
+export interface DeviceDoc {
+    details: DeviceDetailDoc,
+    history: {
+        [key: string]: DeviceHistoryDoc
+    }
+
 }

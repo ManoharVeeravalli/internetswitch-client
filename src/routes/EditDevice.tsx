@@ -3,7 +3,7 @@ import { database, getErrorMessage } from '../lib/firebase';
 import { useUser } from '../lib/hooks';
 import { get, child, ref, update } from 'firebase/database';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
-import { DeviceDoc } from '../lib/types';
+import { DeviceDetailDoc } from '../lib/types';
 import { FirebaseError } from 'firebase/app';
 import Layout from '../components/Layout';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -20,12 +20,12 @@ function EditDevice() {
     const { deviceId } = useParams();
     const user = useUser();
     const [loading, setLoading] = useState(true);
-    const [device, setDevice] = useState<DeviceDoc | null>(null);
+    const [device, setDevice] = useState<DeviceDetailDoc | null>(null);
 
     const getDevice = useCallback(async () => {
         try {
             setLoading(true);
-            const snapshot = await get(child(ref(database), `users/${user?.uid}/devices/${deviceId}`));
+            const snapshot = await get(child(ref(database), `users/${user?.uid}/devices/${deviceId}/details`));
             if (snapshot.exists()) {
                 setDevice(snapshot.val())
             } else {
@@ -55,7 +55,7 @@ function EditDevice() {
     return <EditDeviceForm device={device} deviceId={deviceId} />;
 }
 
-function EditDeviceForm({ device, deviceId }: { device: DeviceDoc, deviceId: string }) {
+function EditDeviceForm({ device, deviceId }: { device: DeviceDetailDoc, deviceId: string }) {
     const user = useUser();
     const [name, setName] = useState(device?.name || '');
     const [error, setError] = useState('');
@@ -66,7 +66,7 @@ function EditDeviceForm({ device, deviceId }: { device: DeviceDoc, deviceId: str
         e.preventDefault();
         setLoading(true);
         try {
-            await update(ref(database, `/users/${user.uid}/devices/${deviceId}`), {
+            await update(ref(database, `/users/${user.uid}/devices/${deviceId}/details`), {
                 name
             })
             navigate('/devices');
