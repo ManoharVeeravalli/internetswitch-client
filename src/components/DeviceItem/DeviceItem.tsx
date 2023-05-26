@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DeviceDoc, STATE_ACTIVE, STATE_RESET, STATUS_OFF, STATUS_ON } from "../../lib/types";
+import { DeviceDetailDoc, STATE_ACTIVE, STATE_RESET, STATUS_OFF, STATUS_ON } from "../../lib/types";
 import { database } from "../../lib/firebase";
 import { update, ref } from "firebase/database";
 import Switch from "../Switch/Switch";
@@ -10,7 +10,7 @@ import Button from "../Button/Button";
 import { useNavigate } from "react-router-dom";
 
 
-function DeviceItem({ device: { details: initalState }, deviceId }: { device: DeviceDoc, deviceId: string }) {
+function DeviceItem({ device: initalState, deviceId }: { device: DeviceDetailDoc, deviceId: string }) {
     const user = useUser();
     const [status, setStatus] = useState(initalState.status == STATUS_ON);
     const [device, setDevice] = useState({ ...initalState });

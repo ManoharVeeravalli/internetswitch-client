@@ -3,13 +3,13 @@ import { useUser } from '../lib/hooks';
 import { get, child, ref } from 'firebase/database';
 import { useCallback, useEffect, useState } from 'react';
 import DeviceItem from './DeviceItem/DeviceItem';
-import { DeviceDoc } from '../lib/types';
+import { DeviceDetailDoc } from '../lib/types';
 import { FirebaseError } from 'firebase/app';
 
 function DeviceList() {
 
     const [loading, setLoading] = useState(true);
-    const [devices, setDevices] = useState<{ [key: string]: DeviceDoc }>({});
+    const [devices, setDevices] = useState<{ [key: string]: DeviceDetailDoc }>({});
 
     const user = useUser();
 
@@ -17,9 +17,12 @@ function DeviceList() {
         try {
             setLoading(true);
             const snapshot = await get(child(ref(database), `users/${user?.uid}/devices`));
-
             if (snapshot.exists()) {
-                setDevices(snapshot.val())
+                let devicesDoc: { [key: string]: DeviceDetailDoc } = {};
+                snapshot.forEach(snap => {
+                    devicesDoc[`${snap.key}`] = snap.child('details').val()
+                });
+                setDevices(devicesDoc)
                 console.log();
             } else {
                 setDevices({})
