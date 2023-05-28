@@ -8,6 +8,7 @@ import { FirebaseError } from 'firebase/app';
 import Layout from '../components/Layout';
 import { useNavigate, useParams } from 'react-router-dom';
 import Button from '../components/Button/Button';
+import Loading from '../components/Loading';
 
 function EditDeviceWrapper() {
     return <>
@@ -46,7 +47,7 @@ function EditDevice() {
 
     if (!deviceId) return null;
 
-    if (loading) return null;
+    if (loading) return <Loading/>;
 
     if (!device) {
         return <>Device {deviceId} does not exist!</>;

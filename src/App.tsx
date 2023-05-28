@@ -5,6 +5,7 @@ import Signin from './routes/Signin';
 import Signup from './routes/Signup';
 import Register from "./routes/Register";
 import EditDevice from "./routes/EditDevice";
+import Device from "./routes/Device";
 import { UserDetailWrapper } from "./lib/hoc";
 import './App.css'
 
@@ -31,10 +32,18 @@ const router = createBrowserRouter([
     ),
   },
   {
+    path: "/devices/:deviceId/edit",
+    element: (
+      <UserDetailWrapper>
+        <EditDevice />
+      </UserDetailWrapper>
+    ),
+  },
+  {
     path: "/devices/:deviceId",
     element: (
       <UserDetailWrapper>
-        <EditDevice/>
+        <Device />
       </UserDetailWrapper>
     ),
   },

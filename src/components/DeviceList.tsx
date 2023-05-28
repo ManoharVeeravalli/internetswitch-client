@@ -18,7 +18,7 @@ function DeviceList() {
             setLoading(true);
             const snapshot = await get(child(ref(database), `users/${user?.uid}/devices`));
             if (snapshot.exists()) {
-                let devicesDoc: { [key: string]: DeviceDetailDoc } = {};
+                const devicesDoc: { [key: string]: DeviceDetailDoc } = {};
                 snapshot.forEach(snap => {
                     devicesDoc[`${snap.key}`] = snap.child('details').val()
                 });
@@ -45,15 +45,11 @@ function DeviceList() {
 
     const deviceKeys = Object.keys(devices);
 
-    if (!deviceKeys.length) {
-        return <>No Devices found</>
-    }
-
     return <>
         <>{deviceKeys.length} Device(s) found</>
         <br /><br />
         {deviceKeys.map(deviceId => {
-            return <DeviceItem key={deviceId} deviceId={deviceId} device={devices[deviceId]} />
+            return <DeviceItem showLink key={deviceId} deviceId={deviceId} device={devices[deviceId]} />
         })}
     </>
 

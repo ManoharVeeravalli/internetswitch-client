@@ -10,7 +10,7 @@ export function AuthGuard<P extends object>(Node: React.ComponentType<P>): React
         const { user, loading } = useContext(AuthContext);
 
         if (loading) {
-            return <Loading text='Auth Loading.....' />
+            return <Loading />
         }
 
         if (!user) {
@@ -31,7 +31,7 @@ export function UserDetailGuard<P extends object>(Node: React.ComponentType<P>):
         const { userDetail, loading } = useContext(UserDetailContext);
 
         if (loading) {
-            return <Loading text='User Loading....' />
+            return <Loading />
         }
 
         if (!userDetail) {

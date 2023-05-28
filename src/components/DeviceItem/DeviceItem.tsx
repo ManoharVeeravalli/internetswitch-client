@@ -7,10 +7,11 @@ import './DeviceItem.css';
 import { useUser } from "../../lib/hooks";
 import Tag from "../Tag/Tag";
 import Button from "../Button/Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 
-function DeviceItem({ device: initalState, deviceId }: { device: DeviceDetailDoc, deviceId: string }) {
+
+function DeviceItem({ device: initalState, deviceId, showLink = false }: { device: DeviceDetailDoc, deviceId: string, showLink?: boolean }) {
     const user = useUser();
     const [status, setStatus] = useState(initalState.status == STATUS_ON);
     const [device, setDevice] = useState({ ...initalState });
@@ -53,14 +54,13 @@ function DeviceItem({ device: initalState, deviceId }: { device: DeviceDetailDoc
     }
 
     async function onEditClick() {
-        navigate(`/devices/${deviceId}`)
+        navigate(`/devices/${deviceId}/edit`)
     }
-
     return (
         <div className="card device-item">
             <div className="device-heading">
                 <div className="flex flex-row flex-center">
-                    <h4 className="device-name">{getDeviceName()}</h4>
+                    {showLink ? <h4 className="device-name"><Link to={`/devices/${deviceId}`}>{getDeviceName()}</Link></h4> : <h4 className="device-name">{getDeviceName()}</h4>}
                     <Tag varient={device.state === STATE_ACTIVE ? 'dark' : 'black'}>{device.state}</Tag>
                 </div>
                 <div>

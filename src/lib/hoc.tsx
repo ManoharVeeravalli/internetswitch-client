@@ -29,7 +29,7 @@ export const UserDetailWrapper: FC<{ children: ReactNode }> = AuthGuard((props) 
 
     const fetchUserDoc = useCallback(async () => {
         try {
-            setLoading(loading);
+            setLoading((loading) => loading);
             const snapshot = await get(child(ref(database), `users/${user?.uid}/details`));
 
             if (snapshot.exists()) {

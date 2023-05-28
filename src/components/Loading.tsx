@@ -1,7 +1,7 @@
 
 
 
-function Loading(_: { text: string }) {
+function Loading() {
     return <div className="text-center">....</div>
 }
 
