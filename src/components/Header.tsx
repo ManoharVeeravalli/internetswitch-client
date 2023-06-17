@@ -12,7 +12,7 @@ function Header() {
             await auth.signOut()
             localStorage.removeItem(user.uid);
         } catch (e) {
-            console.error(e);
+            // console.error(e);
         }
     }
     return <header className='card'>
