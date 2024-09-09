@@ -23,6 +23,7 @@ export interface DeviceDetailDoc {
     state: 'ACTIVE' | 'RESET';
     status: 'HIGH' | 'LOW';
     name: string;
+    ping: number;
 }
 
 export interface DeviceHistoryDoc {

@@ -70,15 +70,32 @@ function DeviceItem({ device: initalState, deviceId, showLink = false }: { devic
             <div className="device-body">
                 {device.state === STATE_RESET && <div>This device will be deleted soon.....</div>}
             </div>
-            <div className="device-footer flex flex-end">
-                {
-                    device.state === STATE_ACTIVE &&
-                    <>
-                        <Button onClick={onEditClick} name="EDIT" varient="light" />
-                        &nbsp;
-                        <Button onClick={onResetClick} name="RESET" varient="black" loading={resetLoading} />
-                    </>
-                }
+            <div className="device-footer flex justify-space-between">
+                <div className="flex align-center no-margin ping flex-wrap">
+                    <b>Last Ping: &nbsp;</b>
+                    <span>
+                        {new Date(device.ping).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short',   // e.g., Sep
+                            day: 'numeric'    // e.g., 12
+                        })}, {new Date(device.ping).toLocaleTimeString('en-US', {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: true      // e.g., 10:30 AM
+                        })}
+                    </span>
+                </div>
+                <div className="flex">
+                    {
+                        device.state === STATE_ACTIVE &&
+                        <>
+                            <Button onClick={onEditClick} name="EDIT" varient="light" />
+                            &nbsp;
+                            <Button onClick={onResetClick} name="RESET" varient="black" loading={resetLoading} />
+                        </>
+                    }
+                </div>
+
             </div>
         </div>);
 }

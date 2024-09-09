@@ -42,6 +42,9 @@ main {
   }
 }
 
+.no-margin {
+  margin: 0;
+}
 
 .highlight {
   color: var(--primary);
@@ -212,4 +215,12 @@ a:hover {
 a:active {
   text-decoration: underline;
   color: var(--primary);
+}
+
+.ping {
+  font-size: 14px;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
 }
