@@ -224,3 +224,10 @@ a:active {
 .flex-wrap {
   flex-wrap: wrap;
 }
+
+@media only screen and (max-width: 480px) {
+  th,
+  td {
+    font-size: 8px;
+  }
+}
