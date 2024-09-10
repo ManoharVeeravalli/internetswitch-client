@@ -1,14 +1,15 @@
 import { useParams } from "react-router-dom";
 import Layout from "../components/Layout";
 import { useUser } from "../lib/hooks";
-import { get, child, ref, query, orderByChild } from 'firebase/database';
+import { get, child, ref } from 'firebase/database';
 import { database, getErrorMessage } from '../lib/firebase';
 import { useCallback, useEffect, useState } from "react";
 import { DeviceDetailDoc } from "../lib/types";
 import { FirebaseError } from "firebase/app";
 import DeviceItem from "../components/DeviceItem/DeviceItem";
 import Loading from "../components/Loading";
-import { DeviceHistoryDoc } from "../lib/types";
+import { DeviceHistory } from "../components/DeviceHistory/DeviceHistory";
+import { DeviceMemory } from "../components/DeviceMemory/DeviceMemory";
 
 function DeviceWrapper() {
     const { deviceId } = useParams();
@@ -18,6 +19,8 @@ function DeviceWrapper() {
             <DeviceDetail deviceId={deviceId} />
             <h1 className='sub-heading'>History</h1>
             <DeviceHistory deviceId={deviceId} />
+            <h1 className='sub-heading'>Memory</h1>
+            <DeviceMemory deviceId={deviceId} />
         </Layout>
     </>
 }
@@ -59,74 +62,5 @@ function DeviceDetail({ deviceId }: { deviceId: string }) {
     return <DeviceItem device={device} deviceId={deviceId} />
 }
 
-function DeviceHistory({ deviceId }: { deviceId: string }) {
-    const user = useUser();
-    const [loading, setLoading] = useState(true);
-    const [history, setHistory] = useState<{ [key: string]: DeviceHistoryDoc }>({});
-
-    const getHistory = useCallback(async () => {
-        try {
-            setLoading(true);
-            const historyRef = ref(database, `users/${user?.uid}/devices/${deviceId}/history`);
-            const snapshot = await get(query(historyRef, orderByChild('createdAt')));
-            if (snapshot.exists()) {
-                setHistory(snapshot.val())
-            } else {
-                setHistory({})
-            }
-        } catch (e) {
-            const error = e as FirebaseError;
-            alert(getErrorMessage(error.code));
-            console.error(e);
-        } finally {
-            setLoading(false);
-        }
-    }, [user?.uid, deviceId]);
-
-    useEffect(() => {
-        getHistory();
-    }, [getHistory])
-
-    if (loading) return <Loading />;
-    return (
-        <>
-            <DeviceHistoryList histories={history} />
-        </>
-    );
-}
-
-function DeviceHistoryList({ histories }: { histories: { [key: string]: DeviceHistoryDoc } }) {
-
-    const keys = Object.keys(histories).reverse();
-
-    return <>
-        <>{keys.length} Record(s) found</>
-        <br /><br />
-        <div className="card">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Created At</th>
-                        <th>Message</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {keys.map(historyId => {
-                        return <HistoryListItem key={historyId} historyId={historyId} history={histories[historyId]} />
-                    })}
-                </tbody>
-            </table>
-
-        </div>
-
-    </>
-}
-
-function HistoryListItem({ history }: { history: DeviceHistoryDoc, historyId: string }) {
-    return <tr>
-        <td>{new Date(history.createdAt).toLocaleString()}</td>
-        <td>{history.message}</td>
-    </tr>
-}
 
 export default DeviceWrapper;

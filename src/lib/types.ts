@@ -31,6 +31,13 @@ export interface DeviceHistoryDoc {
     createdAt: number;
 }
 
+export interface DeviceMemoryDoc {
+    freeHeap: number;
+    heapFragmentation: number;
+    maxFreeBlockSize: number;
+    createdAt: number;
+}
+
 export interface DeviceDoc {
     details: DeviceDetailDoc,
     history: {

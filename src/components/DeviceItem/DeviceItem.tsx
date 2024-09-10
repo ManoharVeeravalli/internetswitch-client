@@ -8,6 +8,7 @@ import { useUser } from "../../lib/hooks";
 import Tag from "../Tag/Tag";
 import Button from "../Button/Button";
 import { useNavigate, Link } from "react-router-dom";
+import { formatDate } from "../../lib/utils";
 
 
 
@@ -74,15 +75,7 @@ function DeviceItem({ device: initalState, deviceId, showLink = false }: { devic
                 <div className="flex align-center no-margin ping flex-wrap">
                     <b>Last Ping: &nbsp;</b>
                     <span>
-                        {new Date(device.ping).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'short',   // e.g., Sep
-                            day: 'numeric'    // e.g., 12
-                        })}, {new Date(device.ping).toLocaleTimeString('en-US', {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            hour12: true      // e.g., 10:30 AM
-                        })}
+                        {formatDate(device.ping)}
                     </span>
                 </div>
                 <div className="flex">
