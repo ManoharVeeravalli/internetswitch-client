@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { DeviceDetailDoc, STATE_ACTIVE, STATE_RESET, STATUS_OFF, STATUS_ON } from "../../lib/types";
 import { database } from "../../lib/firebase";
-import { update, ref } from "firebase/database";
+import { update, ref, push, serverTimestamp } from "firebase/database";
 import Switch from "../Switch/Switch";
 import './DeviceItem.css';
 import { useUser } from "../../lib/hooks";
@@ -22,9 +22,21 @@ function DeviceItem({ device: initalState, deviceId, showLink = false }: { devic
         const prevStatus = status;
         setStatus(!prevStatus);
         try {
-            await update(ref(database, `/users/${user.uid}/devices/${deviceId}/details`), {
-                status: prevStatus ? STATUS_OFF : STATUS_ON
-            })
+            let oldStatus = prevStatus ? STATUS_ON : STATUS_OFF;
+            let newStatus = prevStatus ? STATUS_OFF : STATUS_ON;
+
+            const updates: { [key: string]: any } = {};
+
+            const statusPath = `/users/${user.uid}/devices/${deviceId}/details/status`;
+            const historyPath = `/users/${user.uid}/devices/${deviceId}/history/${push(ref(database)).key}`;
+          
+            updates[statusPath] = newStatus;
+            updates[historyPath] = {
+              createdAt: serverTimestamp(),
+              message: `Device status changed from '${oldStatus}' to '${newStatus}'`
+            };
+
+            await update(ref(database), updates);
         } catch (e) {
             console.error(e);
             setStatus(prevStatus);

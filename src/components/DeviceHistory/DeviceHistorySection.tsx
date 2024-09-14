@@ -3,14 +3,12 @@ import { get, ref, query, orderByChild, limitToLast } from 'firebase/database';
 import { database, getErrorMessage } from '../../lib/firebase';
 import { useCallback, useEffect, useState } from "react";
 import { FirebaseError } from "firebase/app";
-import Loading from "../../components/Loading";
+import Loading from "../Loading";
 import { DeviceHistoryDoc } from "../../lib/types";
 import { formatDate } from "../../lib/utils";
 
 
-
-
-export function DeviceHistory({ deviceId }: { deviceId: string }) {
+export function DeviceHistorySection({ deviceId, limit = 10 }: { deviceId: string, limit?: number }) {
     const user = useUser();
     const [loading, setLoading] = useState(true);
     const [history, setHistory] = useState<{ [key: string]: DeviceHistoryDoc }>({});
@@ -19,7 +17,7 @@ export function DeviceHistory({ deviceId }: { deviceId: string }) {
         try {
             setLoading(true);
             const historyRef = ref(database, `users/${user?.uid}/devices/${deviceId}/history`);
-            const snapshot = await get(query(historyRef, orderByChild('createdAt'), limitToLast(100)));
+            const snapshot = await get(query(historyRef, orderByChild('createdAt'), limitToLast(limit)));
             if (snapshot.exists()) {
                 setHistory(snapshot.val())
             } else {
@@ -69,7 +67,6 @@ function DeviceHistoryList({ histories }: { histories: { [key: string]: DeviceHi
                     })}
                 </tbody>
             </table>
-
         </div>
 
     </>

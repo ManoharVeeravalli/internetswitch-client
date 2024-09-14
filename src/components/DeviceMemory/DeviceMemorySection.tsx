@@ -4,13 +4,11 @@ import { get, ref, query, orderByChild, limitToLast } from 'firebase/database';
 import { database, getErrorMessage } from '../../lib/firebase';
 import { useCallback, useEffect, useState } from "react";
 import { FirebaseError } from "firebase/app";
-import Loading from "../../components/Loading";
+import Loading from "../Loading";
 import { DeviceMemoryDoc } from "../../lib/types";
 import { formatBytes, formatDate } from "../../lib/utils";
 
-
-
-export function DeviceMemory({ deviceId }: { deviceId: string }) {
+export function DeviceMemorySection({ deviceId, limit = 10 }: { deviceId: string, limit?: number }) {
     const user = useUser();
     const [loading, setLoading] = useState(true);
     const [memories, setMemories] = useState<{ [key: string]: DeviceMemoryDoc }>({});
@@ -19,7 +17,7 @@ export function DeviceMemory({ deviceId }: { deviceId: string }) {
         try {
             setLoading(true);
             const historyRef = ref(database, `users/${user?.uid}/devices/${deviceId}/memory`);
-            const snapshot = await get(query(historyRef, orderByChild('createdAt'), limitToLast(100)));
+            const snapshot = await get(query(historyRef, orderByChild('createdAt'), limitToLast(limit)));
             if (snapshot.exists()) {
                 setMemories(snapshot.val())
             } else {
@@ -48,8 +46,6 @@ export function DeviceMemory({ deviceId }: { deviceId: string }) {
 }
 
 
-
-
 function DeviceMemoryList({ memories }: { memories: { [key: string]: DeviceMemoryDoc } }) {
 
     const keys = Object.keys(memories).reverse();
@@ -68,19 +64,18 @@ function DeviceMemoryList({ memories }: { memories: { [key: string]: DeviceMemor
                     </tr>
                 </thead>
                 <tbody>
-                    {keys.map(memoryId => {
+                    {keys.map((memoryId) => {
                         return <MemoryListItem key={memoryId} memoryId={memoryId} memory={memories[memoryId]} />
                     })}
                 </tbody>
             </table>
-
         </div>
 
     </>
 }
 
-function MemoryListItem({ memory }: { memory: DeviceMemoryDoc, memoryId: string }) {
-    return <tr>
+export function MemoryListItem({ memory, memoryId }: { memory: DeviceMemoryDoc, memoryId: string, index?: number }) {
+    return <tr key={memoryId}>
         <td>{formatDate(memory.createdAt)}</td>
         <td>{formatBytes(memory.freeHeap)}</td>
         <td>{memory.heapFragmentation}%</td>

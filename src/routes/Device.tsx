@@ -8,8 +8,9 @@ import { DeviceDetailDoc } from "../lib/types";
 import { FirebaseError } from "firebase/app";
 import DeviceItem from "../components/DeviceItem/DeviceItem";
 import Loading from "../components/Loading";
-import { DeviceHistory } from "../components/DeviceHistory/DeviceHistory";
-import { DeviceMemory } from "../components/DeviceMemory/DeviceMemory";
+import { DeviceHistorySection } from "../components/DeviceHistory/DeviceHistorySection";
+import { DeviceMemorySection } from "../components/DeviceMemory/DeviceMemorySection";
+import { UserDetailGuard } from "../lib/guards";
 
 function DeviceWrapper() {
     const { deviceId } = useParams();
@@ -18,9 +19,9 @@ function DeviceWrapper() {
         <Layout>
             <DeviceDetail deviceId={deviceId} />
             <h1 className='sub-heading'>History</h1>
-            <DeviceHistory deviceId={deviceId} />
+            <DeviceHistorySection deviceId={deviceId} />
             <h1 className='sub-heading'>Memory</h1>
-            <DeviceMemory deviceId={deviceId} />
+            <DeviceMemorySection deviceId={deviceId} />
         </Layout>
     </>
 }
@@ -63,4 +64,4 @@ function DeviceDetail({ deviceId }: { deviceId: string }) {
 }
 
 
-export default DeviceWrapper;
+export default UserDetailGuard(DeviceWrapper);
